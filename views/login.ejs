@@ -1,0 +1,23 @@
+<%- include("partials/header") -%>
+
+<div class="colored-section">
+  <h1 class="big-heading">Login</h1>
+</div>
+
+<div>
+  <form class="login" action="/login" method="POST">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" name="username" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" name="password" />
+    </div>
+
+    <button type="submit" class="btn btn-dark">Login</button>
+  </form>
+</div>
+
+<%- include("partials/footer") -%>

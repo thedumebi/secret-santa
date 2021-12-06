@@ -1,0 +1,77 @@
+<%- include("partials/header") -%>
+
+<div class="colored-section">
+  <h1 class="big-heading">Register</h1>
+</div>
+
+<div>
+  <form action="/register" method="POST">
+    <div class="alert">
+      Only items marked with <span class="required">*</span> are required
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email <span class="required">*</span></label>
+      <input type="email" class="form-control" name="email" required />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password <span class="required">*</span></label>
+      <input type="password" class="form-control" name="password" required />
+    </div>
+
+    <div class="form-group">
+      <label for="first_name">First Name</label>
+      <input
+        type="text"
+        class="form-control"
+        name="first_name"
+        placeholder="John"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="last_name">Last Name</label>
+      <input
+        type="text"
+        class="form-control"
+        name="last_name"
+        placeholder="John"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="phone_number">Phone Number</label>
+      <input
+        type="text"
+        class="form-control"
+        name="phone_number"
+        placeholder="Enter your phone number"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="item">Preferred Gift Item</label>
+      <input
+        type="text"
+        class="form-control"
+        name="item"
+        placeholder="Enter a gift item you want"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Cash</label>
+      <input
+        type="number"
+        class="form-control"
+        name="amount"
+        placeholder="Enter amount if you would like cash"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-dark">Register</button>
+  </form>
+</div>
+
+<%- include("partials/footer") -%>
