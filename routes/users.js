@@ -6,8 +6,9 @@ const {
   registerUser,
   updateProfile,
   getUserProfile,
-  logoutUser
+  logoutUser,
 } = require("../controllers/users");
+const { protect, admin } = require("../middleware");
 
 userRouter.route("/").post(registerUser).get(protect, admin, getUsers);
 userRouter.post("/login", loginUser);

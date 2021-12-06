@@ -34,7 +34,7 @@ app.get("/api", (req, res) => {
 });
 
 // Routes
-app.use("/", require("./routes"));
+app.use("*", require("./routes/users"));
 
 // more middlewares
 app.use(notFound);
