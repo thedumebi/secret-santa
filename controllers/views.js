@@ -1,5 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const {} = require("./users");
 
 /**
  * @description Get login view
@@ -43,7 +42,7 @@ const contactView = (req, res) => {
  * @access Public
  */
 const homeView = (req, res) => {
-  res.render("home");
+  res.render("home", { user: req.user });
 };
 
 module.exports = {
@@ -51,5 +50,5 @@ module.exports = {
   registerView,
   aboutView,
   contactView,
-  homeView
+  homeView,
 };

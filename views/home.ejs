@@ -1,7 +1,42 @@
 <%- include("partials/header") -%>
 
 <section class="container" id="home">
-    <h1>Merry Christmas</h1>
+  <h1>
+    Christmas is the season of joy, of gift-giving, and of families united.
+  </h1>
+</section>
+
+<section class="container">
+  <div>
+    <h1 class="section-title">Make someone happy this season!</h1>
+  </div>
+
+  <div>
+    <div class="home-content">
+      <p>
+        You can either gift someone by delivering their choice item to their
+        home or you can send money to them.
+      </p>
+    </div>
+
+    <% if (user) { %>
+    <button
+      type="button"
+      class="btn"
+      onclick="window.location='/user/<%= user._id %>'"
+    >
+      Profile
+    </button>
+    <% } else { %>
+    <button type="button" class="btn" onclick="window.location='/login'">
+      Login
+    </button>
+    <% } %>
+
+    <button type="button" class="btn" onclick="window.location='/register'">
+      Register
+    </button>
+  </div>
 </section>
 
 <%- include("partials/footer") -%>

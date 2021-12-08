@@ -40,6 +40,13 @@ main {
   grid-row: main;
 }
 
+hr {
+  border: dotted var(--dark-green) 6px;
+  border-bottom: none;
+  width: 5%;
+  margin: 2% auto;
+}
+
 .backdrop {
   display: none;
   position: fixed;
@@ -322,7 +329,7 @@ main {
 
 #home {
   background: linear-gradient(to top, rgba(80, 68, 18, 0.6) 10%, transparent),
-    url("/images/andrea.jpg") left 50% bottom 80% / cover no-repeat border-box
+    url("/images/christmas.jpg") left 50% bottom 80% / cover no-repeat border-box
       fixed,
     #ff1b68;
   /* background-image: url("andrea.jpg");
@@ -358,6 +365,9 @@ main {
   left: 3%;
   /* margin: 0; */
   font-size: 1.6rem;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 10s steps(50, end), blink 1s step-end infinite;
 }
 
 .section-title {
@@ -444,6 +454,50 @@ main {
   margin: auto;
 }
 
+.users {
+  display: flex;
+  flex-direction: column;
+  /* max-width: 80%; */
+  width: 100%;
+  margin: 5% auto 0 auto;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  border: 1px solid var(--dark-green);
+  color: var(--dark-green);
+  font-size: 0.8rem;
+  padding: 2% 0;
+}
+
+td {
+  border: 1px dotted var(--dark-green);
+  color: var(--dark-green);
+  font-size: 0.8rem;
+  padding: 2% 0;
+  text-align: center;
+}
+
+td a {
+  text-decoration: none;
+  color: var(--dark-green);
+}
+
+.home-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 80%;
+}
+
+.home-content p {
+  text-align: justify;
+  line-height: 2;
+}
+
 @media (min-width: 40rem) {
   .toggle-button {
     display: none;
@@ -515,5 +569,24 @@ main {
   }
   100% {
     transform: rotateZ(10deg);
+  }
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--dark-green);
   }
 }

@@ -1,7 +1,8 @@
 const passport = require("passport");
 const User = require("../models/user");
 const Gift = require("../models/gift");
-// const generateToken = require("../utils/token");
+const returnHtml = require("../utils/email");
+const transporter = require("../utils/nodemailer");
 const asyncHandler = require("express-async-handler");
 
 /**
@@ -81,6 +82,24 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
+    // send email
+    const data = {
+      user,
+    };
+    const html = await returnHtml("registerEmail", data);
+    try {
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to: user.email,
+        subject: "Welcome",
+        encoding: "utf-8",
+        html,
+      };
+      await transporter.sendMail(mailOptions);
+    } catch (err) {
+      console.log(err);
+    }
+
     passport.authenticate("local", {
       failureRedirect: "/register",
       failureFlash: true,
@@ -93,13 +112,194 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 /**
- * @description login user
- * @route GET /api/users/login
+ * @description Get all user
+ * @route GET /admin/users/
  * @access Public
  */
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find().sort({ created_at: -1 });
-  res.status(200).json(users);
+  const users = await User.find()
+    .populate(["gift_choice", "partner"])
+    .select("-password")
+    .sort({ created_at: -1 });
+  res.render("users", { users, user: req.user, type: "all" });
+});
+
+/**
+ * @description Get all unpaired users
+ * @route GET /admin/users/unpaired
+ * @access Public
+ */
+const getUnpairedUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({ partner: null })
+    .populate(["gift_choice", "partner"])
+    .select("-password")
+    .sort({ created_at: -1 });
+  res.render("users", { users, user: req.user, type: "unpaired" });
+});
+
+/**
+ * @description pair users
+ * @route GET /admin/users/unpaired
+ * @access Public
+ */
+const pairUsers = asyncHandler(async (req, res) => {
+  const unpairedUsers = (
+    await User.find({ partner: null }).sort({ created_at: -1 })
+  ).map((user) => ({ id: user._id, giving: false, receiving: false }));
+
+  // pair users
+  let userSize = unpairedUsers.length;
+  while (userSize > 1) {
+    // get a random user
+    const random = Math.floor(Math.random() * unpairedUsers.length);
+    let user = unpairedUsers[random];
+    // check giving and receiving status
+    if (user.giving === false || user.receiving === false) {
+      // get another user
+      if (user.giving === false) {
+        // get another user
+        let user2;
+        let random2;
+        let canUserReceive = false;
+        while (!canUserReceive) {
+          random2 = Math.floor(Math.random() * unpairedUsers.length);
+          if (random2 == random) {
+            random2 += 1;
+          }
+          user2 = unpairedUsers[random2];
+          if (user2.receiving === false) {
+            canUserReceive = true;
+          }
+        }
+
+        // partner user2 with 1
+        const user2Update = await User.findByIdAndUpdate(
+          user2.id,
+          { $set: { partner: user.id } },
+          { new: true }
+        );
+
+        // send email
+        const data = {
+          user: user2Update,
+        };
+        const html = await returnHtml("assigned", data);
+        try {
+          const mailOptions = {
+            from: process.env.EMAIL,
+            to: user2Update.email,
+            subject: "Secret Santa Assignment",
+            encoding: "utf-8",
+            html,
+          };
+          await transporter.sendMail(mailOptions);
+        } catch (err) {
+          console.log(err);
+        }
+
+        user.giving = true;
+        user2.receiving = true;
+        if (user2.giving === true && user2.receiving === true) {
+          unpairedUsers.splice(random2, 1);
+          userSize--;
+        }
+      } else if (user.receiving === false) {
+        let user2;
+        let random2;
+        let canUserGive = false;
+        while (!canUserGive) {
+          random2 = Math.floor(Math.random() * unpairedUsers.length);
+          if (random2 == random) {
+            random2 += 1;
+          }
+          user2 = unpairedUsers[random2];
+          if (user2.giving === false) {
+            canUserGive = true;
+          }
+        }
+
+        // partner user2 with 1
+        const userUpdate = await User.findByIdAndUpdate(
+          user.id,
+          { $set: { partner: user2.id } },
+          { new: true }
+        );
+
+        // send email
+        const data = {
+          user: userUpdate,
+        };
+        const html = await returnHtml("assigned", data);
+        try {
+          const mailOptions = {
+            from: process.env.EMAIL,
+            to: userUpdate.email,
+            subject: "Secret Santa Assignment",
+            encoding: "utf-8",
+            html,
+          };
+          await transporter.sendMail(mailOptions);
+        } catch (err) {
+          console.log(err);
+        }
+
+        user.receiving = true;
+        user2.giving = true;
+        if (user2.giving === true && user2.receiving === true) {
+          unpairedUsers.splice(random2, 1);
+          userSize--;
+        }
+      }
+    }
+    if (user.giving === true && user.receiving === true) {
+      unpairedUsers.splice(random, 1);
+      userSize--;
+    }
+  }
+
+  // let partners = [];
+  // let userSize = unpairedUsers.length;
+  // while (userSize > 0) {
+  //   const random = Math.floor(Math.random() * unpairedUsers.length);
+  //   let user;
+  //   if (partners.length === 1) {
+  //     user = unpairedUsers[random];
+  //   } else if (partners.length === 0) {
+  //     user = unpairedUsers.splice(random, 1)[0];
+  //   }
+  //   partners.push(user);
+  //   if (partners.length === 2) {
+  //     const [user1, user2] = partners;
+  //     const user1Update = await User.findByIdAndUpdate(
+  //       user1,
+  //       { $set: { partner: user2 } },
+  //       { new: true }
+  //     );
+
+  //     // send emails to the users telling them they have been assigned santas
+  //     const data = {
+  //       user: user1Update,
+  //     };
+  //     const html = await returnHtml("assigned", data);
+  //     try {
+  //       const mailOptions = {
+  //         from: process.env.EMAIL,
+  //         to: user1Update.email,
+  //         subject: "Secret Santa Assignment",
+  //         encoding: "utf-8",
+  //         html,
+  //       };
+  //       await transporter.sendMail(mailOptions);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //     // reset partners
+  //     partners = [];
+  //   }
+  //   userSize--;
+  // }
+
+  res.redirect("/users");
 });
 
 /**
@@ -109,7 +309,10 @@ const getUsers = asyncHandler(async (req, res) => {
  */
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
-    .populate("gift_choice")
+    .populate([
+      "gift_choice",
+      { path: "partner", populate: { path: "gift_choice" } },
+    ])
     .select("-password");
 
   res.render("profile", { user });
@@ -126,12 +329,14 @@ const updateProfile = asyncHandler(async (req, res) => {
     req.body;
   if (item || amount) {
     if (item && !address) {
-      return res.render("register", {
+      return res.render("profile", {
+        user: req.user,
         error: "Please provide your address for item delivery",
       });
     }
     if ((amount && !bank_name) || (amount && !account_number)) {
-      return res.render("register", {
+      return res.render("profile", {
+        user: req.user,
         error: "Please provide your account details for cash gift",
       });
     }
@@ -142,9 +347,9 @@ const updateProfile = asyncHandler(async (req, res) => {
           $set: {
             item,
             address,
-            amount: null,
-            bank_name: null,
-            account_number: null,
+            ...(amount && { amount }),
+            ...(bank_name && { bank_name }),
+            ...(account_number && { account_number }),
           },
         },
         { new: true }
@@ -154,8 +359,8 @@ const updateProfile = asyncHandler(async (req, res) => {
         req.user.gift_choice,
         {
           $set: {
-            item: null,
-            address: null,
+            ...(item && { item }),
+            ...(address && { address }),
             amount,
             bank_name,
             account_number,
@@ -174,13 +379,13 @@ const updateProfile = asyncHandler(async (req, res) => {
       });
     }
   }
-  const {password, ...otherFields} = req.body
+  const { password, ...otherFields } = req.body;
   const user = await User.findByIdAndUpdate(
     req.params.id,
     {
       $set: {
         ...otherFields,
-        ...(password && password !== "" && {password}),
+        ...(password && password !== "" && { password }),
         gift_choice: gift ? gift._id : req.user.gift_choice,
       },
     },
@@ -219,13 +424,15 @@ const deleteUser = asyncHandler(async (req, res) => {
  */
 const logoutUser = (req, res) => {
   req.logout();
-  res.redirect("/login");
+  res.redirect("/");
 };
 
 module.exports = {
   loginUser,
   registerUser,
   getUsers,
+  getUnpairedUsers,
+  pairUsers,
   getUserProfile,
   updateProfile,
   deleteUser,

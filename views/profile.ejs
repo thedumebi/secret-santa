@@ -6,6 +6,43 @@
 </div>
 
 <div class="user-page">
+
+  <% if (user.partner) { %>
+    <hr />
+    <div>
+      <h4 class="section-title">Your secret santa assignment</h4>
+  
+      <div>
+        <table>
+          <tr>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th>Gift Choice Item</th>
+            <th>Address</th>
+            <th>Gift Choice Amount</th>
+            <th>Account Number</th>
+            <th>Bank Name</th>
+          </tr>
+          <tr>
+            <td><%= user?.partner?.email %></td>
+            <td><%= user?.partner?.first_name %></td>
+            <td><%= user?.partner?.last_name %></td>
+            <td><%= user?.partner?.phone_number %></td>
+            <td><%= user?.partner?.gift_choice?.item %></td>
+            <td><%= user?.partner?.gift_choice?.address %></td>
+            <td><%= user?.partner?.gift_choice?.amount %></td>
+            <td><%= user?.partner?.gift_choice?.account_number %></td>
+            <td><%= user?.partner?.gift_choice?.bank_name %></td>
+          </tr>
+        </table>
+        
+      </div>
+    </div>
+
+    <hr/>
+   <% } %> 
   <h1 class="user-title">Edit Info</h1>
 
   <% if (messages.error) { %>
@@ -83,9 +120,7 @@
   </form>
 
   <div class="user__logout">
-    <form action="/logout" method="POST">
-      <button type="submit" class="btn btn-dark">Logout</button>
-    </form>
+    <button type="button" class="btn logout">Logout</button>
   </div>
 </div>
 

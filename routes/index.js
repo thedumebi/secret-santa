@@ -2,11 +2,13 @@ const router = require("express").Router();
 const {
   getUsers,
   loginUser,
+  pairUsers,
+  logoutUser,
   deleteUser,
   registerUser,
   updateProfile,
   getUserProfile,
-  logoutUser,
+  getUnpairedUsers,
 } = require("../controllers/users");
 const {
   homeView,
@@ -30,10 +32,12 @@ router.get("/about", aboutView);
 router.get("/contact", contactView);
 router.post("/logout", logoutUser);
 router.get("/users", protect, admin, getUsers);
+router.get("/users/unpaired", protect, admin, getUnpairedUsers);
 router
   .route("/user/:id")
   .get(protect, getUserProfile)
   .post(protect, updateProfile)
   .delete(protect, deleteUser);
+router.post("/admin/pair", protect, admin, pairUsers);
 
 module.exports = router;

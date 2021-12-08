@@ -17,6 +17,7 @@ for (let i = 0; i < selectLogoutButtons.length; i++) {
       backdrop.classList.add("open");
     }, 10);
     modal.style.display = "block";
+    mobileNav.classList.remove("open");
     setTimeout(() => {
       modal.classList.add("open");
     }, 10);

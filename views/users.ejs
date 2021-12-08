@@ -1,0 +1,48 @@
+<%- include("partials/header") -%>
+
+<section class="container">
+  <% if (users.length === 0) { %>
+  <div class="users">
+    <h1 class="section-title">There are no users to display.</h1>
+  </div>
+  <% } else { %>
+  <div class="users">
+    <table>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Partner Email</th>
+          <th>Choice Item</th>
+          <th>Choice Amount</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% users.map((user) => { %>
+        <tr>
+          <td>
+            <a class="social-icon" href="mailto:<%= user.email %>"
+              ><%= user.email %>
+            </a>
+          </td>
+          <td><%= user.first_name %></td>
+          <td><%= user.last_name %></td>
+          <td><%= user.partner?.email %></td>
+          <td><%= user.gift_choice?.item %></td>
+          <td><%= user.gift_choice?.amount %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if (type === "unpaired") { %>
+  <form action="/admin/pair" method="post">
+    <button type="submit">Pair unpaired</button>
+  </form>
+  <% } %> <% } %>
+</section>
+
+<%- include("partials/footer") -%>

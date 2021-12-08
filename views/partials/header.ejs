@@ -46,11 +46,19 @@
 
       <nav class="main-nav">
         <ul class="main-nav__items">
-          <% if (locals.user) { %>
+          <% if (locals.user) { %> 
+          <% if (user.is_admin) { %>
+          <li class="main-nav__item">
+            <a href="/users">Users</a>
+          </li>
+          <li class="main-nav__item">
+            <a href="/users/unpaired">Unpaired Users</a>
+          </li>
+          <% } %>
           <li class="main-nav__item">
             <a href="/user/<%= user._id %>">Profile</a>
           </li>
-          <li class="main-nav__item main-nav__item--cta logout">
+          <li class="main-nav__item logout">
             <a href="#">Logout</a>
           </li>
           <% } else { %>
@@ -68,10 +76,18 @@
     <nav class="mobile-nav">
       <ul class="mobile-nav__items">
         <% if (locals.user) { %>
+          <% if (user.is_admin) { %>
+            <li class="mobile-nav__item">
+              <a href="/users">Users</a>
+            </li>
+            <li class="mobile-nav__item">
+              <a href="/users/unpaired">Unpaired Users</a>
+            </li>
+            <% } %>
         <li class="mobile-nav__item">
           <a href="/user/<%= user._id %>">Profile</a>
         </li>
-        <li class="mobile-nav__item mobile-nav__item--cta">
+        <li class="mobile-nav__item logout">
           <a href="#">Logout</a>
         </li>
         <% } else { %>

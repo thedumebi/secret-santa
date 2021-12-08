@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Gift",
     },
+    partner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     first_name: String,
     last_name: String,
     phone_number: String,

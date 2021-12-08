@@ -62,22 +62,22 @@
         placeholder="Enter your phone number"
       />
 
-      <label for="item_choice">Gift Choice</label>
+      <!-- <label for="item_choice">Gift Choice</label>
       <select name="item_choice" id="item_choice" onchange="loadChoice()">
         <option value="" selected disabled hidden>Select</option>
         <option value="item">Item</option>
         <option value="amount">Cash</option>
-      </select>
+      </select> -->
 
-      <!-- <label for="item">Preferred Gift Item</label>
+      <label for="item">Preferred Gift Item</label>
       <input
         type="text"
         id="item"
         class="form-control"
         name="item"
         placeholder="Enter a gift item you want"
-        onchange="addAddress()"
-      /> -->
+        oninput="addAddress()"
+      />
 
       <!-- <label for="address">Address</label>
       <input
@@ -89,15 +89,15 @@
         onchange="checkAddress()"
       /> -->
 
-      <!-- <label for="amount">Cash</label>
+      <label for="amount">Cash</label>
       <input
         type="number"
         class="form-control"
         id="amount"
         name="amount"
         placeholder="Enter amount if you would like cash"
-        onchange="addAccountDetails()"
-      /> -->
+        oninput="addAccountDetails()"
+      />
 
       <button type="submit" class="btn btn-dark">Register</button>
     </form>
