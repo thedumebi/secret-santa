@@ -1,23 +1,27 @@
 <%- include("partials/header") -%>
 
-<div class="colored-section">
-  <h1 class="big-heading">Login</h1>
-</div>
+<section class="container">
+  <div>
+    <h1 class="section-title">Login</h1>
+  </div>
 
-<div>
-  <form class="login" action="/login" method="POST">
-    <div class="form-group">
+  <div class="user-page login">
+    <% if (locals.error) { %>
+    <div class="error"><%= error %></div>
+    <% } %> <% if (messages.error) { %>
+    <div class="error"><%= messages.error %></div>
+    <% } %>
+
+    <form action="/login" method="POST" class="user-form">
       <label for="email">Email</label>
-      <input type="email" class="form-control" name="username" />
-    </div>
+      <input type="email" class="form-control" name="email" />
 
-    <div class="form-group">
       <label for="password">Password</label>
       <input type="password" class="form-control" name="password" />
-    </div>
 
-    <button type="submit" class="btn btn-dark">Login</button>
-  </form>
-</div>
+      <button type="submit" class="btn btn-dark">Login</button>
+    </form>
+  </div>
+</section>
 
 <%- include("partials/footer") -%>

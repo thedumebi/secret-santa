@@ -5,30 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Secret Santa</title>
-
-    <!-- Google fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Ubuntu&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- CSS stylesheets -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="/css/styles.css" />
-
-    <!-- Bootstrap scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-      crossorigin="anonymous"
-    ></script>
-
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -37,45 +13,76 @@
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.1/css/v4-shims.css"
     />
-
-    <section class="colored-section">
-      <div class="container-fluid">
-        <nav class="navbar navbar-default navbar-expand-lg">
-          <a class="navbar-brand" href="/">Santa</a>
-
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#menu"
-            aria-controls="menu"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="menu">
-            <ul class="navbar-nav ml-auto">
-              <% if (locals.user) { %>
-              <li class="nav-item" id="vendor">
-                <a class="nav-link" href="/profile">Vendor</a>
-              </li>
-              <li class="nav-item" id="logout">
-                <a class="nav-link" href="/logout">Logout</a>
-              </li>
-              <% } else { %>
-              <li class="nav-item" id="login">
-                <a class="nav-link" href="/login">Login</a>
-              </li>
-              <li class="nav-item" id="register">
-                <a class="nav-link" href="/register">Register</a>
-              </li>
-              <% } %>
-            </ul>
-          </div>
-        </nav>
-      </div>
-    </section>
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
-  <body class="container-fluid">
+
+  <body>
+    <div class="backdrop"></div>
+
+    <div class="modal">
+      <h1 class="modal__title">Are you sure you want to logout?</h1>
+      <div class="modal__actions">
+        <form action="/logout" method="POST">
+          <button type="submit" class="modal__action btn">Yes!</button>
+        </form>
+        <button type="submit" class="modal__action modal__action--negative btn">
+          No!
+        </button>
+      </div>
+    </div>
+
+    <header class="main-header">
+      <div>
+        <button class="toggle-button">
+          <span class="toggle-button__bar"></span
+          ><span class="toggle-button__bar"></span
+          ><span class="toggle-button__bar"></span>
+        </button>
+
+        <a href="/" class="main-header__brand">
+          <img src="images/uhost-icon.png" alt="Secret Santa" />
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul class="main-nav__items">
+          <% if (locals.user) { %>
+          <li class="main-nav__item">
+            <a href="/user/<%= user._id %>">Profile</a>
+          </li>
+          <li class="main-nav__item main-nav__item--cta logout">
+            <a href="#">Logout</a>
+          </li>
+          <% } else { %>
+          <li class="main-nav__item">
+            <a href="/register">Register</a>
+          </li>
+          <li class="main-nav__item main-nav__item--cta">
+            <a href="/login">Login</a>
+          </li>
+          <% } %>
+        </ul>
+      </nav>
+    </header>
+
+    <nav class="mobile-nav">
+      <ul class="mobile-nav__items">
+        <% if (locals.user) { %>
+        <li class="main-nav__item">
+          <a href="/user/<%= user._id %>">Profile</a>
+        </li>
+        <li class="main-nav__item main-nav__item--cta">
+          <a href="#">Logout</a>
+        </li>
+        <% } else { %>
+        <li class="main-nav__item">
+          <a href="/register">Register</a>
+        </li>
+        <li class="main-nav__item main-nav__item--cta">
+          <a href="/login">Login</a>
+        </li>
+        <% } %>
+      </ul>
+    </nav>
+
+    <main>

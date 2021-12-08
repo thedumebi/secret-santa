@@ -1,14 +1,10 @@
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const passport = require("passport");
-const passportLocalMongoose = require("passport-local-mongoose");
+const LocalStrategy = require("passport-local").Strategy;
 
 const userSchema = new mongoose.Schema(
   {
-    id: {
-      type: Number,
-      unique: true,
-    },
     email: {
       type: String,
       required: true,
@@ -24,6 +20,7 @@ const userSchema = new mongoose.Schema(
     },
     first_name: String,
     last_name: String,
+    address: String,
     phone_number: String,
     is_admin: {
       type: Boolean,
@@ -35,8 +32,6 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
-userSchema.plugin(passportLocalMongoose);
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
@@ -66,10 +61,31 @@ userSchema.pre("findOneAndUpdate", async function () {
 
 const User = mongoose.model("User", userSchema);
 
-passport.use(User.createStrategy());
+const authenticateUser = async (email, password, done) => {
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return done(null, false, { message: "Incorrect email or password" });
+    }
+    if (await user.matchPassword(password)) {
+      return done(null, user);
+    } else {
+      return done(null, false, { message: "Incorrect password or email" });
+    }
+  } catch (err) {
+    return done(err);
+  }
+};
+
+passport.use(
+  new LocalStrategy(
+    { usernameField: "email", passwordField: "password" },
+    authenticateUser
+  )
+);
 
 passport.serializeUser(function (user, done) {
-  done(null, user.id);
+  done(null, user._id);
 });
 
 passport.deserializeUser(function (id, done) {

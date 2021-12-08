@@ -1,9 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const passport = require("passport");
+const flash = require("express-flash");
 const session = require("express-session");
 const connectDB = require("./models");
-const passportLocalMongoose = require("passport-local-mongoose");
 const { cors, errorHandler, notFound } = require("./middleware");
 
 const app = express();
@@ -15,6 +15,7 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "/public"));
+app.use(flash());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -23,7 +24,7 @@ app.use(
   })
 );
 app.use(passport.initialize());
-app.use(passport.session);
+app.use(passport.session());
 app.use(cors);
 
 // static uploads folder
@@ -34,7 +35,7 @@ app.get("/api", (req, res) => {
 });
 
 // Routes
-app.use("*", require("./routes/users"));
+app.use(require("./routes"));
 
 // more middlewares
 app.use(notFound);
