@@ -5,14 +5,14 @@
     <h1 class="section-title">Register</h1>
   </div>
 
-  <div class="user-page regiater">
+  <div class="user-page register">
     <% if (messages.error) { %>
     <div class="error"><%= messages.error %></div>
     <% } %> <% if (locals.error) { %>
     <div class="error"><%= error %></div>
     <% } %>
 
-    <form action="/register" method="POST" class="user-form">
+    <form action="/register" method="POST" id="register" class="user-form">
       <label for="email">Email <span class="required">*</span></label>
       <input
         type="email"
@@ -27,9 +27,16 @@
         type="password"
         class="form-control"
         name="password"
-        placeholder="password"
+        placeholder="Make it a good one!"
         required
       />
+
+      <label for="gender">Gender <span class="required">*</span></label>
+      <select name="gender" id="gender" required>
+        <option value="">Select</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
 
       <label for="first_name">First Name</label>
       <input
@@ -44,15 +51,7 @@
         type="text"
         class="form-control"
         name="last_name"
-        placeholder="John"
-      />
-
-      <label for="last_name">Address</label>
-      <input
-        type="text"
-        class="form-control"
-        name="address"
-        placeholder="234 Blvd"
+        placeholder="Doe"
       />
 
       <label for="phone_number">Phone Number</label>
@@ -63,25 +62,50 @@
         placeholder="Enter your phone number"
       />
 
-      <label for="item">Preferred Gift Item</label>
+      <label for="item_choice">Gift Choice</label>
+      <select name="item_choice" id="item_choice" onchange="loadChoice()">
+        <option value="" selected disabled hidden>Select</option>
+        <option value="item">Item</option>
+        <option value="amount">Cash</option>
+      </select>
+
+      <!-- <label for="item">Preferred Gift Item</label>
       <input
         type="text"
+        id="item"
         class="form-control"
         name="item"
         placeholder="Enter a gift item you want"
-      />
+        onchange="addAddress()"
+      /> -->
 
-      <label for="amount">Cash</label>
+      <!-- <label for="address">Address</label>
+      <input
+        type="text"
+        id="address"
+        class="form-control"
+        name="address"
+        placeholder="234 Blvd"
+        onchange="checkAddress()"
+      /> -->
+
+      <!-- <label for="amount">Cash</label>
       <input
         type="number"
         class="form-control"
+        id="amount"
         name="amount"
         placeholder="Enter amount if you would like cash"
-      />
+        onchange="addAccountDetails()"
+      /> -->
 
       <button type="submit" class="btn btn-dark">Register</button>
     </form>
   </div>
+
+  <script>
+    let userExists
+  </script>
 </section>
 
 <%- include("partials/footer") -%>

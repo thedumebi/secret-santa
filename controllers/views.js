@@ -37,9 +37,19 @@ const contactView = (req, res) => {
   res.render("contact");
 };
 
+/**
+ * @description Get home view
+ * @route GET /
+ * @access Public
+ */
+const homeView = (req, res) => {
+  res.render("home");
+};
+
 module.exports = {
   loginView,
   registerView,
   aboutView,
   contactView,
+  homeView
 };

@@ -9,6 +9,7 @@ const {
   logoutUser,
 } = require("../controllers/users");
 const {
+  homeView,
   loginView,
   aboutView,
   contactView,
@@ -16,10 +17,7 @@ const {
 } = require("../controllers/views");
 const { protect, checkNotAuthenticated, admin } = require("../middleware");
 
-router
-  .route("/")
-  .post(checkNotAuthenticated, registerUser)
-  .get(checkNotAuthenticated, registerView);
+router.route("/").get(homeView);
 router
   .route("/register")
   .post(checkNotAuthenticated, registerUser)

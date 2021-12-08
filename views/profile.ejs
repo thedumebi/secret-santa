@@ -1,6 +1,6 @@
 <%- include("partials/header") -%>
 
-<section class="container">
+<section class="container" id="profile">
 <div>
   <h1 class="section-title">Hello <%= user.email %></h1>
 </div>
@@ -10,9 +10,14 @@
 
   <% if (messages.error) { %>
     <div class="error"><%= messages.error %></div>
-  <% } %>
+  <% } %><% if (locals.error) { %>
+    <div class="error"><%= error %></div>
+    <% } %>
+    <% if (locals.success) { %>
+      <div class="success"><%= success %></div>
+    <% } %>
 
-  <form action="/user/<%= user._id %>" method="POST" class="user-form">    
+  <form action="/user/<%= user._id %>" method="POST" id="register" class="user-form">    
       <label for="password">Password</label>
       <input
         type="password"
@@ -20,6 +25,17 @@
         name="password"
         placeholder="password"
       />
+
+      <label for="gender">Gender</label>
+      <select name="gender" id="gender">
+        <option value="">Select</option>
+        <option value="male" <% if (user.gender === "male") { %>
+          selected
+          <% } %> >Male</option>
+        <option value="female" <% if (user.gender === "female") { %>
+          selected
+          <% } %>>Female</option>
+      </select>
     
       <label for="first_name">First Name</label>
       <input
@@ -38,15 +54,6 @@
         placeholder="Doe"
         value="<%= user.last_name %>"
       />
-   
-      <label for="last_name">Address</label>
-      <input
-        type="text"
-        class="form-control"
-        name="address"
-        placeholder="234 Blvd"
-        value="<%= user.address %>"
-      />
     
       <label for="phone_number">Phone Number</label>
       <input
@@ -56,28 +63,21 @@
         placeholder="Enter your phone number"
         value="<%= user.phone_number %>" 
       />
- 
-      <label for="item">Preferred Gift Item</label>
-      <input
-        type="text"
-        class="form-control"
-        name="item"
-        placeholder="Enter a gift item you want"
-        value=<% if (user.gift_choice) { %>
-          <%= user.gift_choice.item %>
-        <% } %> 
-      />
-    
-      <label for="amount">Cash</label>
-      <input
-        type="number"
-        class="form-control"
-        name="amount"
-        placeholder="Enter amount if you would like cash"
-        value=<% if (user.gift_choice) { %>
-        <%= user.gift_choice.amount %> 
-        <% } %>
-      />
+
+      <label for="item_choice">Gift Choice</label>
+      <select name="item_choice" id="item_choice" onchange="loadChoice()">
+        <option value="" <% if (!user.gift_choice) { %>
+          selected disabled hidden
+          <% } %>  >Select</option>
+        <option value="item" <% if (user.gift_choice && user.gift_choice.item) { %>
+          selected
+          <% } %> 
+        >Item</option>
+        <option value="amount" <% if (user.gift_choice && user.gift_choice.amount) { %>
+          selected
+          <% } %> 
+        >Cash</option>
+      </select>
 
     <button type="submit" class="btn btn-dark">Update</button>
   </form>
@@ -89,7 +89,14 @@
   </div>
 </div>
 
-
+<script>
+  const userExists = <%- JSON.stringify(user) %>
+  <% if (locals.success) { %>
+    setTimeout(() => {
+      window.location = "/"
+    }, 3000);
+  <% } %>
+</script>
 
 </section>
 

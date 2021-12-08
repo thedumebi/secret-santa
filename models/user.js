@@ -14,13 +14,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required!"],
     },
+    gender: {
+      type: String,
+      required: true,
+    },
     gift_choice: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Gift",
     },
     first_name: String,
     last_name: String,
-    address: String,
     phone_number: String,
     is_admin: {
       type: Boolean,

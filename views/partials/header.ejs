@@ -68,17 +68,17 @@
     <nav class="mobile-nav">
       <ul class="mobile-nav__items">
         <% if (locals.user) { %>
-        <li class="main-nav__item">
+        <li class="mobile-nav__item">
           <a href="/user/<%= user._id %>">Profile</a>
         </li>
-        <li class="main-nav__item main-nav__item--cta">
+        <li class="mobile-nav__item mobile-nav__item--cta">
           <a href="#">Logout</a>
         </li>
         <% } else { %>
-        <li class="main-nav__item">
+        <li class="mobile-nav__item">
           <a href="/register">Register</a>
         </li>
-        <li class="main-nav__item main-nav__item--cta">
+        <li class="mobile-nav__item mobile-nav__item--cta">
           <a href="/login">Login</a>
         </li>
         <% } %>

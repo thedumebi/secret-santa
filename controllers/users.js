@@ -30,9 +30,12 @@ const registerUser = asyncHandler(async (req, res) => {
     first_name,
     last_name,
     phone_number,
-    address,
+    gender,
     item,
+    address,
     amount,
+    bank_name,
+    account_number,
   } = req.body;
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -48,18 +51,31 @@ const registerUser = asyncHandler(async (req, res) => {
 
   let gift;
   if (item || amount) {
+    if (item && !address) {
+      return res.render("register", {
+        error: "Please provide your address for item delivery",
+      });
+    }
+    if ((amount && !bank_name) || (amount && !account_number)) {
+      return res.render("register", {
+        error: "Please provide your account details for cash gift",
+      });
+    }
     gift = await Gift.create({
       item,
+      address,
       amount,
+      bank_name,
+      account_number,
     });
   }
 
   const user = await User.create({
     first_name,
     last_name,
+    gender,
     email,
     password,
-    address,
     gift_choice: gift ? gift._id : null,
     phone_number,
   });
@@ -106,26 +122,65 @@ const getUserProfile = asyncHandler(async (req, res) => {
  */
 const updateProfile = asyncHandler(async (req, res) => {
   let gift;
-  if (req.body.item || req.body.amount) {
-    gift = await Gift.findByIdAndUpdate(
-      req.user.gift_choice,
-      {
-        $set: { item: req.body.item, amount: req.body.amount },
-      },
-      { new: true }
-    );
+  const { item, amount, bank_name, account_number, address, item_choice } =
+    req.body;
+  if (item || amount) {
+    if (item && !address) {
+      return res.render("register", {
+        error: "Please provide your address for item delivery",
+      });
+    }
+    if ((amount && !bank_name) || (amount && !account_number)) {
+      return res.render("register", {
+        error: "Please provide your account details for cash gift",
+      });
+    }
+    if (item_choice === "item") {
+      gift = await Gift.findByIdAndUpdate(
+        req.user.gift_choice,
+        {
+          $set: {
+            item,
+            address,
+            amount: null,
+            bank_name: null,
+            account_number: null,
+          },
+        },
+        { new: true }
+      );
+    } else if (item_choice === "amount") {
+      gift = await Gift.findByIdAndUpdate(
+        req.user.gift_choice,
+        {
+          $set: {
+            item: null,
+            address: null,
+            amount,
+            bank_name,
+            account_number,
+          },
+        },
+        { new: true }
+      );
+    }
     if (!gift) {
       gift = await Gift.create({
-        item: req.body.item,
-        amount: req.body.amount,
+        item,
+        address,
+        amount,
+        bank_name,
+        account_number,
       });
     }
   }
+  const {password, ...otherFields} = req.body
   const user = await User.findByIdAndUpdate(
     req.params.id,
     {
       $set: {
-        ...req.body,
+        ...otherFields,
+        ...(password && password !== "" && {password}),
         gift_choice: gift ? gift._id : req.user.gift_choice,
       },
     },
@@ -135,10 +190,9 @@ const updateProfile = asyncHandler(async (req, res) => {
     .select("-password");
 
   if (user) {
-    res.render("profile", { user });
+    res.render("profile", { user, success: "Profile updated successfully" });
   } else {
-    res.status(404);
-    throw new Error("User not found");
+    res.render("profile", { user, error: "Profile could not be updated" });
   }
 });
 

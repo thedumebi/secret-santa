@@ -5,7 +5,7 @@
 :root {
   --dark-green: #4f5c4f;
   --highlight-color: #ff1b68;
-  --white: #fff
+  --white: #fff;
 }
 
 * {
@@ -197,7 +197,7 @@ main {
   top: 0;
   left: 0;
   background: white;
-  width: 80%;
+  width: 50%;
   height: 100vh;
   transition: transform 300ms ease-out;
   background: linear-gradient(
@@ -293,8 +293,8 @@ main {
 }
 
 .modal__action {
-  border: 1px solid #0e4f1f;
-  background: #0e4f1f;
+  border: 1px solid var(--dark-green);
+  background: var(--dark-green);
   text-decoration: none;
   color: white;
   font: inherit;
@@ -318,6 +318,46 @@ main {
 .modal__action--negative:active {
   background: #ff5454;
   border-color: #ff5454;
+}
+
+#home {
+  background: linear-gradient(to top, rgba(80, 68, 18, 0.6) 10%, transparent),
+    url("/images/andrea.jpg") left 50% bottom 80% / cover no-repeat border-box
+      fixed,
+    #ff1b68;
+  /* background-image: url("andrea.jpg");
+  background-size: cover;
+  background-position: left 10% bottom 80%; */
+  /* background-repeat: no-repeat; */
+  /* background-origin: border-box; */
+  /* background-clip: border-box; */
+  /* background-attachment: fixed; */
+  /* background-image: linear-gradient(
+    180deg,
+    red 70%,
+    blue 80%,
+    rgba(0, 0, 0, 0.5)
+  ); */
+  /* background-image: radial-gradient(
+    ellipse farthest-corner at 20% 50%,
+    red,
+    blue 70%,
+    green
+  ); */
+  width: 100%;
+  /* height: 528px; */
+  height: 60vh;
+  /* border: 5px dashed white; */
+  position: relative;
+}
+
+#home h1 {
+  color: white;
+  position: absolute;
+  bottom: 5%;
+  left: 3%;
+  /* margin: 0; */
+  font-size: 1.6rem;
 }
 
 .section-title {
@@ -378,6 +418,30 @@ main {
 
 .required {
   color: red;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  color: #fff;
+  font-weight: bold;
+  max-width: 80%;
+  padding: 2%;
+  margin: auto;
+}
+
+.success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+  color: #fff;
+  font-weight: bold;
+  max-width: 80%;
+  padding: 2%;
+  margin: auto;
 }
 
 @media (min-width: 40rem) {
