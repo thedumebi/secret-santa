@@ -1,0 +1,87 @@
+<%- include("partials/emailHeader") %>
+
+<tr id="content-aria" style="width: 100%">
+  <td style="padding: 32px 32px 0">
+    <table
+      role="presentation"
+      style="
+        width: 100%;
+        border-collapse: collapse;
+        border: 0;
+        border-spacing: 0;
+        background-color: #ffffff;
+      "
+    >
+      <tr>
+        <td
+          style="
+            text-align: center;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 24px;
+            line-height: 30px;
+            text-transform: capitalize;
+            color: #4e4b66;
+            padding: 39px;
+          "
+          align="center"
+        >
+         Welcome
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 16px;
+          "
+        >
+          Hello <%= user.email%>,
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 35px;
+          "
+        >
+          Thank you for signing up to particioate in secret santa
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 0;
+          "
+        >
+          Best,
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 10px;
+          "
+        >
+          <%= siteName %> Team
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<%- include("partials/emailFooter") %>

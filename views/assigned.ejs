@@ -1,0 +1,113 @@
+<%- include("partials/emailHeader") %>
+
+<tr id="content-aria" style="width: 100%">
+  <td style="padding: 32px 32px 0">
+    <table
+      role="presentation"
+      style="
+        width: 100%;
+        border-collapse: collapse;
+        border: 0;
+        border-spacing: 0;
+        background-color: #ffffff;
+      "
+    >
+      <tr>
+        <td
+          style="
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 16px;
+          "
+        >
+          Hello <%= user.email%>,
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 35px;
+          "
+        >
+          Someone has been assigned to you for secret santa.
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 10px;
+          "
+        >
+          Kindly log into your profile to see who it is:
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 23px;
+          "
+        >
+          <p style="margin: 20px 0">
+            <a
+              href="<%= siteUrl %>login"
+              style="
+                padding: 20px 30px;
+                background: #28b0dd;
+                box-shadow: 0 4px 8px rgba(228, 235, 238, 0.59);
+                border-radius: 5px;
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 16px;
+                line-height: 20px;
+                text-decoration: none;
+              "
+            >
+              Login
+            </a>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 0;
+          "
+        >
+          Best,
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            color: #4e4b66;
+            padding: 0 32px 10px;
+          "
+        >
+          <%= siteName %> Team
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<%- include("partials/emailFooter") %>

@@ -112,6 +112,12 @@ hr {
   vertical-align: middle;
 }
 
+.main-header__brand p {
+  /* width: 100%; */
+  height: 2.5rem;
+  vertical-align: middle;
+}
+
 .main-nav {
   display: none;
 }
@@ -171,12 +177,13 @@ hr {
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
 }
 
 .main-footer__link {
-  margin: 0.5rem 0;
+  margin: 0 0.5rem;
 }
 
 .main-footer__link a {
@@ -329,8 +336,8 @@ hr {
 
 #home {
   background: linear-gradient(to top, rgba(80, 68, 18, 0.6) 10%, transparent),
-    url("/images/christmas.jpg") left 50% bottom 80% / cover no-repeat border-box
-      fixed,
+    url("/images/christmas.jpg") left 50% bottom 80% / cover no-repeat
+      border-box fixed,
     #ff1b68;
   /* background-image: url("andrea.jpg");
   background-size: cover;
@@ -365,9 +372,12 @@ hr {
   left: 3%;
   /* margin: 0; */
   font-size: 1.6rem;
+}
+
+.typing {
   overflow: hidden;
   white-space: nowrap;
-  animation: typing 10s steps(50, end), blink 1s step-end infinite;
+  animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
 }
 
 .section-title {
@@ -491,6 +501,8 @@ td a {
   align-items: center;
   justify-content: center;
   max-width: 80%;
+  margin: 0 auto;
+  flex-direction: column;
 }
 
 .home-content p {
