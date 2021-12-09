@@ -203,6 +203,11 @@ hr {
   color: #fff;
 }
 
+.main-footer__copyright a {
+  color: white;
+  text-decoration: none;
+}
+
 /* Mobile Nav */
 .mobile-nav {
   transform: translateX(-100%);
