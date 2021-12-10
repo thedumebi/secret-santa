@@ -1,0 +1,76 @@
+<%- include("partials/header") -%>
+
+<section class="container" id="profile">
+  <div>
+    <h1 class="section-title">Hello <%= user.email %></h1>
+  </div>
+
+  <div class="users">
+    <% if (user.partner) { %>
+    <!-- <hr /> -->
+    <div>
+      <h4 class="section-title">Your secret santa assignment</h4>
+
+      <div>
+        <table>
+          <tr>
+            <th>Email</th>
+            <td><%= user?.partner?.email %></td>
+          </tr>
+          <tr>
+            <th>First Name</th>
+            <td><%= user?.partner?.first_name %></td>
+          </tr>
+          <tr>
+            <th>Last Name</th>
+            <td><%= user?.partner?.last_name %></td>
+          </tr>
+          <tr>
+            <th>Phone Number</th>
+            <td><%= user?.partner?.phone_number %></td>
+          </tr>
+          <tr>
+            <th>Gift Choice Item</th>
+            <td><%= user?.partner?.gift_choice?.item %></td>
+            <th>Address</th>
+            <td><%= user?.partner?.gift_choice?.address %></td>
+          </tr>
+          <tr>
+            <th>Gift Choice Amount</th>
+            <td><%= user?.partner?.gift_choice?.amount %></td>
+            <th>Account Number</th>
+            <td><%= user?.partner?.gift_choice?.account_number %></td>
+          </tr>
+          <tr>
+            <th>Bank Name</th>
+            <td><%= user?.partner?.gift_choice?.bank_name %></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!-- <hr/> -->
+    <% } else { %>
+    <div>
+      <h4 class="section-title">You are yet to be assigned a partner</h4>
+    </div>
+    <% } %>
+  </div>
+
+  <hr>
+  
+  <div>
+    <button
+      type="button"
+      class="btn"
+      onclick="window.location='/user/<%= user._id %>/edit'"
+    >
+      Update Info
+    </button>
+  </div>
+
+  <div class="user__logout">
+    <button type="button" class="btn logout">Logout</button>
+  </div>
+</section>
+
+<%- include("partials/footer") -%>

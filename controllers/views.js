@@ -1,3 +1,4 @@
+const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 
 /**
@@ -45,10 +46,26 @@ const homeView = (req, res) => {
   res.render("home", { user: req.user });
 };
 
+/**
+ * @description Get profile view
+ * @route GET /
+ * @access Private
+ */
+const partnerView = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+    .populate([
+      "gift_choice",
+      { path: "partner", populate: { path: "gift_choice" } },
+    ])
+    .select("-password");
+  res.render("partner", { user });
+});
+
 module.exports = {
   loginView,
   registerView,
   aboutView,
   contactView,
   homeView,
+  partnerView,
 };

@@ -14,6 +14,7 @@ const {
   homeView,
   loginView,
   aboutView,
+  partnerView,
   contactView,
   registerView,
 } = require("../controllers/views");
@@ -35,9 +36,10 @@ router.get("/users", protect, admin, getUsers);
 router.get("/users/unpaired", protect, admin, getUnpairedUsers);
 router
   .route("/user/:id")
-  .get(protect, getUserProfile)
+  .get(protect, partnerView)
   .post(protect, updateProfile)
   .delete(protect, deleteUser);
+router.get("/user/:id/edit", protect, getUserProfile);
 router.post("/admin/pair", protect, admin, pairUsers);
 
 module.exports = router;

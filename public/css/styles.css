@@ -224,7 +224,8 @@ hr {
       rgba(111, 106, 106, 0.89) 70%,
       transparent
     ),
-    url("images/freedom.jpg") left 20% bottom 10% / cover no-repeat border-box;
+    url("/images/christmas.jpg") left 20% bottom 10% / cover no-repeat
+      border-box;
 }
 
 .mobile-nav__items {
@@ -286,25 +287,25 @@ hr {
 .modal {
   display: none;
   position: fixed;
-  opacity: 0;
-  transform: translateY(-3rem);
+  opacity: 10;
+  transform: translate(-50%, -50%) !important;
   transition: opacity 200ms ease-out,
     transform 500ms cubic-bezier(0.21, 0.65, 0.68, 0.19);
   z-index: 200;
-  top: 30%;
-  left: 30%;
-  width: 40%;
+  top: 50%;
+  left: 50%;
+  width: 60%;
   background: white;
   padding: 2rem;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-  border-radius: 16px;
+  border-radius: 1.5rem;
 }
 
 .modal__title {
   text-align: center;
   margin: 0 0 1rem 0;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .modal__actions {
@@ -319,7 +320,8 @@ hr {
   font: inherit;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  margin: 1rem;
+  margin: 0.5rem;
+  font-size: 1.1rem;
 }
 
 .modal__action:hover,
@@ -368,6 +370,7 @@ hr {
   height: 60vh;
   /* border: 5px dashed white; */
   position: relative;
+  margin-top: 0;
 }
 
 #home h1 {
@@ -408,8 +411,15 @@ hr {
   font-weight: bold;
 }
 
+.user-form select {
+  border: 1px solid #ccc;
+  padding: 0.2rem 0.5rem;
+  font: inherit;
+}
+
 .user-form label,
-.user-form input {
+.user-form input,
+.user-form select {
   display: block;
   width: 100%;
 }
@@ -427,14 +437,23 @@ hr {
 }
 
 .user-form input.invalid,
+.user-form select.invalid,
 .user-form :invalid {
   background: #faacac;
   border-color: red !important;
 }
 
+.user-form select:focus {
+  outline: 1px solid #ccc;
+  background: #d8f3df;
+  border-color: #2ddf5c;
+}
+
 .user-form button[type="submit"] {
-  display: block;
+  /* display: block; */
   align-self: start;
+  width: 50%;
+  margin: 0 auto;
 }
 
 .user__logout {
@@ -515,6 +534,19 @@ td a {
   line-height: 2;
 }
 
+.container {
+  width: 90%;
+  margin: 2% auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-page {
+  width: 100%;
+}
+
 @media (min-width: 40rem) {
   .toggle-button {
     display: none;
@@ -545,6 +577,11 @@ td a {
     margin: 0 1rem;
   }
 
+  .modal {
+    width: 40%;
+    border-radius: 3rem;
+  }
+
   .modal__title {
     font-size: 1.5rem;
   }
@@ -558,22 +595,23 @@ td a {
 
   .container {
     width: 90%;
-    margin: auto;
+  }
+
+  .modal__actions {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .user-form button[type="submit"] {
+    width: auto;
+    margin-left: 0;
   }
 }
 
 @media (min-width: 40rem) and (orientation: landscape) {
   .container {
     width: 80%;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
 }
 
